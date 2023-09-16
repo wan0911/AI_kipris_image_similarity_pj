@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- css -->
+  <link href="../static/css/home.css" rel="stylesheet">
+  <!-- fontawsome -->
+  <script src="https://kit.fontawesome.com/b40d855736.js" crossorigin="anonymous"></script>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>
+    {{ title }}
+  </title>
+
+  <script>
+    $(document).ready(function() {
+      $('.loading-item').hide();
+
+      $('#img-form').submit(function() {
+        const maskItem = document.querySelector('.mask');
+
+        $('.loading-item').show();
+        maskItem.style.opacity = '.2';
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+  <div class="header">
+    <div class="nav">
+      <div>11 VIEW</div>
+      <div>Home</div>
+      <div>main</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- loading중 화면 구현 -->
+    <div class="loading-item">
+      <div class="loading-container">
+        <div class="loading"></div>
+        <div id="loading-text">loading</div>
+      </div>
+    </div>
+
+
+    <div class="main">
+      <div class="logo-txt">
+        <div style="margin-bottom: 40px;">Excellence</div>
+
+        <div class="wrapper">
+          <div class="focus">
+            Ai-searching
+          </div>
+          <div class="mask">
+            <div class="text">Ai-searching</div>
+          </div>
+        </div>
+
+        <div>images</div>
+      </div>
+      <div class="detail-txt">
+        2023.06.10<br />
+        KOREA INISW SW ACADEMY
+      </div>
+      <!-- localhost용 이미지 경로 -->
+      <!-- <img src="{{ url_for('static', path='item/Subtract.png') }}" alt="triangle-component" />
+      <img src="{{ url_for('static', path='item/circle.png')}}" alt="circle-component" />
+      <img src="{{ url_for('static', path='item/circle-gradient.png')}}" alt="circle-gradient" /> -->
+      <!-- liveserver용 이미지 경로 -->
+      <img src="../static/item/Subtract.png" alt="triangle-component" />
+      <img src="../static/item/circle.png" alt="circle-component" />
+      <img src="../static/item/circle-gradient.png" alt="circle-gradient" />
+    </div>
+
+    <div class="search-tab">
+      <div class="search-comp">
+        <div class="try-txt">
+          <span>T</span>
+          <span>r</span>
+          <span>y</span>
+          <span style="margin-left: 10px;">i</span>
+          <span>t</span>
+          <span>.</span>
+        </div>
+        <div>AI 이미지 상표 검색</div>
+        <div>유사한 상표를 지금 확인하세요!</div>
+        <!-- 이미지 form 전송, loading 중 화면 구현 -->
+        <form method="post" action="/upload" enctype="multipart/form-data" id="img-form">
+          <div class="search-container">
+            <input type="text" id="img-url" name="fileName" />
+
+            <label class="input-file-btn" for="input-file">
+              <!-- localhost용 이미지 경로 -->
+              <!-- <img src="{{ url_for('static', path='item/Camera.png')}}" alt="camera-btn" /> -->
+              <!-- liveserver용 이미지 경로 -->
+              <img src="../static/item/Camera.png" alt="camera-btn" />
+
+              <!-- 파일명 변경 js 함수 추가 -->
+              <input type="file" name="image" id="input-file" onchange="javascript:document.getElementById('img-url').value = this.value.replace(/C:\\fakepath\\/i, '')" style="display: none;" />
+            </label>
+          </div>
+          <label class="submit-btn">
+            <input type="submit" style="opacity: 0;" />
+            <div class=" search-go">
+              <div class="container container-one">
+                <button>
+                  상표 검색하기
+                  <i class="fa-solid fa-arrow-right" style="color: #ffffff; margin-left: 7px"></i>
+                  <div class="fill-one"></div>
+                </button>
+              </div>
+            </div>
+          </label>
+        </form>
+
+      </div>
+    </div>
+
+    <div class="cards">
+      <div>ABOUT</div>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-box">
+            <div>STEP 1</div>
+            <img src="../static/item/img-upload.png" />
+          </div>
+          <div class="card-txt">
+            <div>검색하고 싶은 이미지를 업로드하세요.</div>
+            <div>
+              이미지는 파일 업로드나 URL 입력으로 검색할 수 있습니다. <br />
+              검색을 지원하는 이미지 형식은 <strong style="color: #654dd0;">jpg, jpeg, png</strong>입니다. <br />
+              업로드 된 화상 파일은, 본 서비스상에 보존되지 않습니다.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-box">
+            <div>STEP 2</div>
+            <img src="../static/item/programming-2.png" />
+          </div>
+          <div class="card-txt">
+            <div>AI 도형 상표 이미지 검색</div>
+            <div>
+              하루에 <strong style="color: #654dd0;">10회</strong>까지 무료 검색이 가능합니다. <br />
+              이미지 업로드가 완료 되어야 검색이 가능합니다.
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-box">
+            <div>STEP 3</div>
+            <img src="../static/item/data-analysis-2.png" />
+          </div>
+          <div class="card-txt">
+            <div>검색 결과가 표시됩니다.</div>
+            <div>
+              이미지를 AI가 분석하여 유사도가 높은 <strong style="color: #654dd0;">5개</strong>의 상표를 표시합니다. <br />
+              검색 결과를 클릭하면 <strong style="color: #654dd0;">유사도 일치 부분</strong>이 표시됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="nav"></div>
+    </div>
+  </div>
+</body>
+
+</html>

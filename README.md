@@ -1,6 +1,6 @@
 
 
-<b><div align="center" style="font-size:250%">
+<b><div align="center" style="font-size:30px">
   상표 이미지 유사도 검색 서비스  🔍
 </div></b>
 
@@ -22,14 +22,20 @@
 ### 🛠️Settings
 |||
 |------|---|
-|개발 목표|AI 모델을 활용한 효율적인 상표 검색 서비스 구현|
+|개발 목표|**AI 모델**을 활용한 효율적인 상표 검색 서비스 구현|
 |개발 인원|모델 3명, 시스템 2명|
 |개발 환경| **Language**: python, javascript <br/>**Framework**: mongoDB, fastAPI, figma|
-|References (paper)|**similarity**: IRT, SimSiam, SimCLR <br/>**ranking**: ORB+RANSAC, SIFT|
+
 
 
 <br/><br/>
-## 📌 About model
+
+### 📚 References
+**similarity**: IRT, SimSiam, SimCLR <br/>**ranking**: ORB+RANSAC, SIFT
+
+
+<br/><br/>
+### 📌 About model
 <p align="center">
 <img src="readme_src/flow.png"/>
 </p>
@@ -45,7 +51,7 @@
 
 
 <br/><br/>
-## 📌 About system
+### 📌 About system
 ### ⚙️ Service Architecture
 <p align="center">
 <img src="readme_src/system.png"/>

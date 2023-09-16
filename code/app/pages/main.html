@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- css -->
+  <link href="../static/css/main.css" rel="stylesheet">
+  <!-- fontawsome -->
+  <script src="https://kit.fontawesome.com/b40d855736.js" crossorigin="anonymous"></script>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <title>
+    {{ title }}
+  </title>
+
+  <script>
+    $(document).ready(function() {
+      var itemWrapper = $('.item-desc-wrapper');
+      var itemDesc = $('.item-desc');
+
+      itemWrapper.hide()
+
+      $(".original_img").hover(
+        function() {
+          $(this).css("opacity", "0.2"); // original_img의 투명도를 0.8로 변경
+          $(this).siblings(".trans_img").css("opacity", "0.95"); // trans_img의 투명도를 0.8로 변경
+        },
+        function() {
+          $(this).css("opacity", ""); // hover 종료 시 original_img 투명도 초기값으로 변경
+        }
+      );
+    });
+
+    function showItemDesc(index) {
+      $('#item-desc-wrapper-' + index).show();
+    }
+
+    function hideItemDesc(index) {
+      $('#item-desc-wrapper-' + index).hide();
+    }
+  </script>
+</head>
+
+<body>
+  <div class="header">
+    <div class="nav">
+      <div>11 VIEW</div>
+      <div>Home</div>
+      <div>main</div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="input-area">
+      <!-- localhost용 이미지 경로 -->
+      <img src="{{ url_for('static', path='img/input/img1.png') }}" class="input_img" alt="input-img" />
+      <img src="{{ url_for('static', path='img/fm_img/original_input.png') }}" class="input_transform_img" alt="input_transform_img" />
+      <!-- liverserver용 이미지 경로 -->
+      <!-- <img src="../static/img/input/img1.png" class="input_img" alt="input_img" />
+      <img src="../static/img/fm_img/original_input.png" class="input_transform_img" alt="input_transform_img" /> -->
+
+      <div class="match-result">
+        <p style="color:#412CA5; margin-right: 10px">5</p>
+        <p>matches</p>
+      </div>
+      <div class="match-content">
+        이미지 간의 유사도는 <strong style="color:#412CA5;">피처 매칭</strong> 기술을 활용하여 측정됩니다. 피처 매칭은 이미지에서 <strong style="color:#412CA5;">특징점</strong>을 감지하고 이를 통해 이미지들의 유사도를 비교하고 매칭 결과를 도출합니다.
+        매칭된 특징점의 수가 <u>높을수록</u> 이미지들 간의 유사도가 높다고 판단됩니다. 따라서, 피처 매칭은 상표 이미지 간의 유사도 측정에 유용하게 활용됩니다.
+      </div>
+    </div>
+
+
+    <div class="output-area">
+      <div class="item-container">
+        <!-- localhost용 이미지 경로 -->
+        {% for index in range(1, 6) %}
+        <div class="item" onclick="showItemDesc({{ index }})">
+          <img src="{{ url_for('static', path='img/output/retrieval_' ~ index ~ '.png') }}" alt="original-img-{{ index }}" class="original_img-1" />
+          <img src="{{ url_for('static', path='img/fm_img/fm_input/data_' ~ index ~ '/transform_' ~ index ~ '.png') }}" class="trans-img-1" alt="transform_img_{{ index }}" />
+          <p>
+            {{ similar_distance[index-1] }}
+          </p>
+        </div>
+        <div class="item-desc-wrapper" id="item-desc-wrapper-{{ index }}">
+          <div class="item-desc">
+            <div class="item-header">
+              <i class="fa-solid fa-xmark" style="color: #ffffff;" onclick="hideItemDesc({{ index }})"></i>
+            </div>
+            <div class="item-container">
+              <div class="title">
+                {{ retrieval_data[index-1]["title"] }}
+                <hr />
+              </div>
+              <div class="data-container">
+                <div class="item-img">
+                  <img src="{{ url_for('static', path='img/output/retrieval_' ~ index ~ '.png') }}" alt="original-img-{{ index }}" class="original_img" />
+                  <img src="{{ url_for('static', path='img/fm_img/fm_input/data_' ~ index ~ '/transform_' ~ index ~ '.png') }}" class="trans-img" alt="transform_img_{{ index }}" />
+                </div>
+                <div class="desc-1">
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">상품분류 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["productCategories"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width:140px">출원(국제등록)번호 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["applicationNum"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">등록번호 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["applicationDate"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87);">출원공고번호 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["publicationNum"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 80px;">최종권리자 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["regPrivilegeName"] }}
+                    </p>
+                  </div>
+                </div>
+                <div class="desc-2">
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 55px;">출원인 :</p>
+                    <p style="width: 150px;">
+                      {{ retrieval_data[index-1]["applicantName"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 140px">출원(국제등록)일자 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["applicationDate"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">등록일자 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["regDate"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87);">출원공고일자 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["publicationDate"] }}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 55px;">대리인 :</p>
+                    <p>
+                      {{ retrieval_data[index-1]["agentName"] }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <!-- liverserver용 이미지 경로 -->
+        <!-- <div class="item" onclick="showItemDesc()">
+          <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+          <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+        </div>
+        <div class="item-desc-wrapper">
+          <div class="item-desc">
+            <div class="item-header">
+              <i class="fa-solid fa-xmark" style="color: #ffffff;" id="x-mark"></i>
+            </div>
+            <div class="item-container">
+              <div class="title">
+                상표명
+                <hr />
+              </div>
+              <div class="data-container">
+                <div class="item-img">
+                  <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+                  <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+                </div>
+                <div class="desc-1">
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">상품분류 :</p>
+                    <p>09 38 41 42</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width:140px">출원(국제등록)번호 :</p>
+                    <p>1650938</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">등록번호 :</p>
+                    <p>NULL</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87);">출원공고번호 :</p>
+                    <p>4020230057071</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 80px;">최종권리자 :</p>
+                    <p>NULL</p>
+                  </div>
+                </div>
+                <div class="desc-2">
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 55px;">출원인 :</p>
+                    <p style="width: 150px;">Dassault Systèmes</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 140px">출원(국제등록)일자 :</p>
+                    <p>2021.12.15</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 70px;">등록일자 :</p>
+                    <p></p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87);">출원공고일자 :</p>
+                    <p>2023.03.29</p>
+                  </div>
+                  <div>
+                    <p style="color: rgb(87, 87, 87); width: 55px;">대리인 :</p>
+                    <p>NULL</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="item">
+          <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+          <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+        </div>
+        <div class="item">
+          <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+          <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+        </div>
+        <div class="item">
+          <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+          <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+        </div>
+        <div class="item">
+          <img src="../static/img/output/retrieval_1.png" class="original_img" alt="original_img" />
+          <img src="../static/img/fm_img/fm_input/data_1/transform_1.png" class="trans_img" />
+        </div>
+      </div> -->
+
+      </div>
+      <div class="footer">
+        <div class="nav"></div>
+      </div>
+    </div>
+
+
+</body>
+
+</html>
